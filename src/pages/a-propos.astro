@@ -9,24 +9,13 @@ const schema = {
   '@context': 'https://schema.org',
   '@type':    'AboutPage',
   url:        `${SITE.url}/a-propos/`,
-  about: {
-    '@type':   'CleaningService',
-    name:      SITE.nom,
-    telephone: SITE.tel,
-    url:       SITE.url,
-    address: {
-      '@type':         'PostalAddress',
-      addressLocality: SITE.ville,
-      postalCode:      SITE.cp,
-      addressCountry:  'FR',
-    },
-  },
+  about: { '@id': `${SITE.url}/#organization` },
 };
 ---
 
 <Layout
   title="À propos — NPG, entreprise de nettoyage dans l'Essonne (91)"
-  description="NPG, entreprise familiale de nettoyage professionnel dans l'Essonne : bureaux, parties communes, sols, vitres et espaces verts. Une équipe expérimentée à votre service."
+  description="NPG, entreprise familiale de nettoyage dans l'Essonne : bureaux, parties communes, sols, vitres et espaces verts. Une équipe formée et expérimentée."
   canonical={`${SITE.url}/a-propos/`}
   schema={schema}
 >

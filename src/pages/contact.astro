@@ -12,26 +12,13 @@ const schema = {
   '@context': 'https://schema.org',
   '@type':    'ContactPage',
   url:        `${SITE.url}/contact/`,
-  about: {
-    '@type':   'CleaningService',
-    name:      SITE.nom,
-    telephone: SITE.tel,
-    email:     SITE.email,
-    url:       SITE.url,
-    address: {
-      '@type':         'PostalAddress',
-      streetAddress:   SITE.streetAddress,
-      addressLocality: SITE.ville,
-      postalCode:      SITE.cp,
-      addressCountry:  'FR',
-    },
-  },
+  about: { '@id': `${SITE.url}/#organization` },
 };
 ---
 
 <Layout
   title="Contact — NPG, entreprise de nettoyage dans l'Essonne (91)"
-  description="Contactez NPG, entreprise de nettoyage dans l'Essonne (91). Téléphone, email et formulaire de contact. Devis sur demande, intervention dans tout le département."
+  description="Joignez NPG, entreprise de nettoyage dans l'Essonne (91), par téléphone, email ou formulaire. Intervention dans tout le département, devis sur demande."
   canonical={`${SITE.url}/contact/`}
   schema={schema}
 >
