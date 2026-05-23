@@ -26,7 +26,7 @@ export const SITE = {
   zone:        "Essonne (91) et Île-de-France",
   url:         'https://societe-npg.fr',
   seoTitle:    "Entreprise de nettoyage dans l'Essonne (91) — NPG",
-  seoDesc:     "NPG, spécialiste du nettoyage dans l'Essonne (91) : bureaux, locaux professionnels, parties communes de copropriété, surfaces vitrées, sols et espaces verts. Devis gratuit, intervention dans tout le département.",
+  seoDesc:     "NPG, spécialiste du nettoyage dans l'Essonne (91) : bureaux, locaux professionnels, parties communes de copropriété, surfaces vitrées, sols et espaces verts. Devis sur demande, intervention dans tout le département.",
   // ── Schema.org ──
   logo:        '/assets/img/logo/logo-square-512.png',
   // URL Google Business (CID) — à compléter si fiche GBP existante

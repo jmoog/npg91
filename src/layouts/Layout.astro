@@ -43,8 +43,8 @@ const {
     noindex={noindex}
   />
 
-  <!-- Google Search Console : à compléter avec le token de vérification NPG -->
-  {/* <meta name="google-site-verification" content="TOKEN_A_COMPLETER" /> */}
+  <!-- Google Search Console : preuve de propriété du domaine -->
+  <meta name="google-site-verification" content="cxiF8BKHRDwVa231R4IH231EbXDMw7nVglyAr1knYSg" />
 
   <!-- Preload de tous les poids d'Inter utilisés above-the-fold
        (sinon Lighthouse les voit en chaîne critique : 500/600/800 sont
@@ -185,7 +185,7 @@ const {
   <script is:inline>
     (function() {
       var KEY = 'npg-cookie-consent';
-      var GA_ID = ''; // ← Renseigner l'ID GA4 NPG (format G-XXXXXXX) pour activer la mesure d'audience
+      var GA_ID = 'G-0MSVJD8R2N'; // GA4 NPG — chargé après consentement (RGPD)
 
       function loadGA() {
         if (!GA_ID) return; // pas d'ID configuré → aucune mesure d'audience chargée

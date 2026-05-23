@@ -24,6 +24,8 @@ export default defineConfig({
     // Alias /sitemap.xml → /sitemap-index.xml (Astro génère le second par convention
     // multi-fichiers, mais certains crawlers/outils tentent le premier en priorité).
     '/sitemap.xml': '/sitemap-index.xml',
+    // Ancienne page devis consolidée vers /contact/
+    '/devis-gratuit/': '/contact/',
     // '/ancienne-url-wp/': '/nouvelle-url-astro/',
   },
   integrations: [

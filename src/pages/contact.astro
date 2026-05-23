@@ -31,7 +31,7 @@ const schema = {
 
 <Layout
   title="Contact — NPG, entreprise de nettoyage dans l'Essonne (91)"
-  description="Contactez NPG, entreprise de nettoyage dans l'Essonne (91). Téléphone, email et formulaire de contact. Devis gratuit, intervention dans tout le département."
+  description="Contactez NPG, entreprise de nettoyage dans l'Essonne (91). Téléphone, email et formulaire de contact. Devis sur demande, intervention dans tout le département."
   canonical={`${SITE.url}/contact/`}
   schema={schema}
 >
@@ -118,12 +118,37 @@ const schema = {
               <input id="c-ville" type="text" name="ville" required placeholder="Montlhéry, 91310…">
             </div>
 
+            <div class="form-row">
+              <div class="fg">
+                <label for="c-entreprise">Votre entreprise <span style="color:var(--muted);font-weight:400;">(optionnel)</span></label>
+                <input id="c-entreprise" type="text" name="entreprise" autocomplete="organization" placeholder="Nom de votre société">
+              </div>
+              <div class="fg">
+                <label for="c-secteur">Secteur d'activité <span style="color:var(--muted);font-weight:400;">(optionnel)</span></label>
+                <input id="c-secteur" type="text" name="secteur" placeholder="Bureaux, copropriété, commerce…">
+              </div>
+            </div>
+
+            <div class="fg">
+              <label for="c-prestation">Type de prestation <span style="color:var(--muted);font-weight:400;">(optionnel)</span></label>
+              <select id="c-prestation" name="prestation">
+                <option value="">— Choisir —</option>
+                <option value="nettoyage-bureaux">Nettoyage de bureaux / locaux</option>
+                <option value="parties-communes">Parties communes de copropriété</option>
+                <option value="surfaces-vitrees">Surfaces vitrées</option>
+                <option value="nettoyage-sols">Nettoyage et entretien des sols</option>
+                <option value="moquettes">Shampooing de moquettes</option>
+                <option value="espaces-verts">Entretien des espaces verts</option>
+                <option value="haute-pression">Nettoyage haute pression</option>
+                <option value="fin-de-chantier">Nettoyage de fin de chantier</option>
+                <option value="autre">Autre / plusieurs prestations</option>
+              </select>
+            </div>
+
             <div class="fg">
               <label for="c-message">Votre message</label>
               <textarea id="c-message" name="message" rows="5" required placeholder="Décrivez votre demande (type de locaux, prestation souhaitée, fréquence…)"></textarea>
             </div>
-
-            <input type="hidden" name="prestation" value="autre">
 
             {turnstileKey && (
               <div class="cf-turnstile" data-sitekey={turnstileKey} data-theme="light" style="margin-bottom:1rem;"></div>
@@ -131,7 +156,7 @@ const schema = {
 
             <button type="submit" class="btn btn--red btn--full" id="contact-submit">
               <img src="/assets/icones/email.svg" alt="" width="16" height="16" class="icone">
-              Envoyer le message
+              Envoyer un message
             </button>
             <p id="contact-status" role="status" aria-live="polite" style="margin-top:1rem;font-size:.92rem;"></p>
           </form>

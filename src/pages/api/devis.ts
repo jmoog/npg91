@@ -71,6 +71,8 @@ interface DevisData {
   email: string;
   ville: string;
   prestation: string;
+  entreprise?: string;
+  secteur?: string;
   message?: string;
 }
 
@@ -159,6 +161,7 @@ function notifTemplate(d: DevisData) {
         <tr><td style="padding:24px 32px 8px;">
           <div style="font-size:11px;text-transform:uppercase;letter-spacing:.08em;color:${COLOR_MUTED};font-weight:700;margin-bottom:8px;">Client</div>
           <div style="font-size:18px;font-weight:700;color:${COLOR_BLUE_D};">${escapeHtml(d.nom)}</div>
+          ${d.entreprise ? `<div style="font-size:14px;color:${COLOR_TEXT};margin-top:4px;"><strong>${escapeHtml(d.entreprise)}</strong>${d.secteur ? ` — ${escapeHtml(d.secteur)}` : ''}</div>` : (d.secteur ? `<div style="font-size:14px;color:${COLOR_TEXT};margin-top:4px;">Secteur : ${escapeHtml(d.secteur)}</div>` : '')}
         </td></tr>
         <tr><td style="padding:8px 32px;">
           <table role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%">
@@ -196,7 +199,7 @@ function notifTemplate(d: DevisData) {
         </td></tr>
         <tr><td style="background:${COLOR_LIGHT};padding:16px 32px;border-top:1px solid ${COLOR_BORDER};font-size:12px;color:${COLOR_MUTED};text-align:center;">
           Demande reçue le ${new Date().toLocaleString('fr-FR', { dateStyle: 'long', timeStyle: 'short', timeZone: 'Europe/Paris' })}<br>
-          via <a href="${SITE_URL}/devis-gratuit/" style="color:${COLOR_BLUE};text-decoration:none;">societe-npg.fr/devis-gratuit/</a>
+          via <a href="${SITE_URL}/contact/" style="color:${COLOR_BLUE};text-decoration:none;">societe-npg.fr/contact/</a>
         </td></tr>
       </table>
     </td></tr>
@@ -341,6 +344,8 @@ export const POST: APIRoute = async ({ request }) => {
     email:      String(raw.email).trim().slice(0, 200),
     ville:      String(raw.ville).trim().slice(0, 100),
     prestation: String(raw.prestation).trim().slice(0, 80),
+    entreprise: String(raw.entreprise || '').trim().slice(0, 120),
+    secteur:    String(raw.secteur || '').trim().slice(0, 120),
     message:    String(raw.message || '').trim().slice(0, 4000),
   };
 
