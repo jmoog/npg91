@@ -16,6 +16,10 @@ RUN --mount=type=cache,target=/root/.npm npm ci
 
 # Copier le reste du code et builder
 COPY . .
+# Variable de build : clé publique Turnstile, injectée dans le HTML statique.
+# Coolify la passe en --build-arg quand elle est cochée « Build Variable ».
+ARG PUBLIC_TURNSTILE_SITE_KEY=""
+ENV PUBLIC_TURNSTILE_SITE_KEY=$PUBLIC_TURNSTILE_SITE_KEY
 RUN npm run build
 
 # ── Stage 2 : runtime ───────────────────────────────────────────────────
