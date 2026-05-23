@@ -8,10 +8,11 @@ export default defineConfig({
   output: 'static',
   trailingSlash: 'always',
   compressHTML: true,
-  // Inline les CSS d'Astro directement dans le HTML → supprime 2 requêtes
-  // bloquantes (/_astro/index.css + /_astro/Layout.css ~9 KiB) qui ralentissaient
-  // le FCP/LCP. 'auto' inline les feuilles < ~4 KiB, idéal pour les CSS scopés Astro.
-  build: { inlineStylesheets: 'auto' },
+  // Inline TOUS les CSS scopés d'Astro directement dans le HTML → supprime les
+  // requêtes bloquantes (/_astro/index.css + /_astro/Layout.css, ~9 KiB) qui
+  // ralentissaient le FCP/LCP. ('always' au lieu de 'auto' qui laissait passer
+  // les feuilles > 4 KiB.) Le gros style.css public reste chargé en preload.
+  build: { inlineStylesheets: 'always' },
   // Adapter Node en mode standalone — sert les fichiers statiques + les API
   // routes (ex: /api/devis) via un serveur Node minimal. serveur Node minimal.
   adapter: node({ mode: 'standalone' }),
