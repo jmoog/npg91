@@ -178,9 +178,10 @@ const schema = {
     <div class="h-hero__inner">
       <div class="h-hero__txt">
         <h1 class="h-hero__title">
-          <span class="h-hero__line">Société de</span>
+          <span class="h-hero__line">Entreprise de</span>
           <span class="h-hero__line h-hero__line--accent">nettoyage&nbsp;91<i class="h-hero__underline"></i></span>
         </h1>
+        <p class="h-hero__brand">Société NPG</p>
         <p class="h-hero__hook">Besoin d'assurer la propreté de vos locaux&nbsp;?</p>
         <p class="h-hero__sub">
           <strong>NPG</strong> est votre interlocuteur du <strong>nettoyage professionnel</strong> dans l'<strong>Essonne&nbsp;(91)</strong> : <strong>bureaux</strong>, <strong>locaux</strong>, <strong>parties communes</strong>, <strong>surfaces vitrées</strong>, <strong>sols</strong> et <strong>espaces verts</strong>. Une équipe expérimentée pour la propreté et l'hygiène de vos espaces, partout dans le département.
@@ -597,6 +598,18 @@ const schema = {
   background: var(--red);
   transform: skewX(-14deg);
   border-radius: 2px;
+}
+/* Sous-titre marque sous le H1, en bleu (rappel du logo) */
+.h-hero__brand {
+  display: inline-block;
+  color: #6aa4dd;
+  font-size: clamp(1.05rem, 2.2vw, 1.5rem);
+  font-weight: 800;
+  font-style: italic;
+  text-transform: uppercase;
+  letter-spacing: .03em;
+  margin: 0 0 1.1rem;
+  text-shadow: 0 1px 6px rgba(0,0,0,.4);
 }
 .h-hero__hook {
   color: var(--white);

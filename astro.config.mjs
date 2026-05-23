@@ -22,11 +22,10 @@ export default defineConfig({
   security: { checkOrigin: false },
   // Redirections 301 pour les anciennes URLs WP (à compléter via GSC 404).
   redirects: {
-    // Alias /sitemap.xml → /sitemap-index.xml (Astro génère le second par convention
-    // multi-fichiers, mais certains crawlers/outils tentent le premier en priorité).
-    '/sitemap.xml': '/sitemap-index.xml',
     // Ancienne page devis consolidée vers /contact/
     '/devis-gratuit/': '/contact/',
+    // Note : l'alias /sitemap.xml → /sitemap-index.xml est géré par l'endpoint
+    // src/pages/sitemap.xml.ts (la redirection ici était cassée par trailingSlash).
     // '/ancienne-url-wp/': '/nouvelle-url-astro/',
   },
   integrations: [
