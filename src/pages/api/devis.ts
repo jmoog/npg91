@@ -212,7 +212,7 @@ function notifTemplate(d: DevisData) {
 
 function ackTemplate(d: DevisData) {
   const presta = PRESTATION_LABELS[d.prestation] || d.prestation || 'votre demande';
-  const subject = `J'ai bien reçu votre demande — ${ENTREPRISE}`;
+  const subject = `Nous avons bien reçu votre demande — ${ENTREPRISE}`;
   const prenom = (d.nom || '').split(' ')[0];
 
   const html = `<!DOCTYPE html>
