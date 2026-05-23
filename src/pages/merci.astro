@@ -1,0 +1,88 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { SITE } from '../config';
+---
+<Layout
+  title="Demande envoyée — NPG"
+  description="Votre demande de devis a bien été envoyée."
+  canonical={`${SITE.url}/merci`}
+  noindex={true}
+>
+  <section class="merci">
+    <div class="container merci__inner">
+      <div class="merci__check">✓</div>
+      <h1>Merci pour votre demande !</h1>
+      <p>Votre demande a bien été envoyée.<br>Nous vous recontactons rapidement, souvent le jour même.</p>
+      <a href="/" class="btn btn--red">← Retour à l'accueil</a>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div class="sec-head">
+        <h2>En attendant, découvrez nos prestations de nettoyage</h2>
+        <p>NPG intervient sur l'ensemble des besoins de propreté dans l'Essonne.</p>
+      </div>
+      <div class="srv-grid">
+        <a href="/#nettoyage-bureaux" class="srv-card">
+          <strong>Nettoyage de bureaux</strong>
+          <span>Entretien régulier de vos espaces de travail, adapté à vos horaires.</span>
+        </a>
+        <a href="/#parties-communes" class="srv-card">
+          <strong>Parties communes</strong>
+          <span>Halls, escaliers et locaux communs des immeubles et copropriétés.</span>
+        </a>
+        <a href="/#surfaces-vitrees" class="srv-card">
+          <strong>Surfaces vitrées</strong>
+          <span>Vitres, vitrines et vérandas nettoyées par des professionnels.</span>
+        </a>
+        <a href="/#nettoyage-sols" class="srv-card">
+          <strong>Nettoyage des sols</strong>
+          <span>Autolaveuse, monobrosse et injection-extraction des moquettes.</span>
+        </a>
+        <a href="/#espaces-verts" class="srv-card">
+          <strong>Espaces verts</strong>
+          <span>Tonte, taille de haies et entretien des abords de vos locaux.</span>
+        </a>
+        <a href="/galerie/" class="srv-card">
+          <strong>Galerie</strong>
+          <span>Découvrez quelques-unes de nos interventions dans l'Essonne.</span>
+        </a>
+      </div>
+    </div>
+  </section>
+
+</Layout>
+
+<script>
+  // @ts-ignore
+  if (typeof gtag !== 'undefined') {
+    gtag('event', 'generate_lead', {
+      event_category: 'formulaire',
+      event_label: 'devis_npg_nettoyage'
+    });
+  }
+</script>
+
+<style>
+.merci {
+  background: linear-gradient(135deg, var(--blue) 0%, #0d2240 100%);
+  padding: 5rem 0;
+  text-align: center;
+}
+.merci__inner { max-width: 600px; margin: 0 auto; }
+.merci__check {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 72px;
+  height: 72px;
+  background: var(--red);
+  border-radius: 50%;
+  font-size: 2rem;
+  color: #fff;
+  margin-bottom: 1.5rem;
+}
+.merci h1 { color: #fff; margin-bottom: 1rem; }
+.merci p  { color: rgba(255,255,255,.8); margin-bottom: 2rem; font-size: 1.05rem; }
+</style>

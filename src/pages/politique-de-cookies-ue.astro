@@ -1,0 +1,67 @@
+---
+// src/pages/politique-de-cookies-ue.astro
+import Layout from '../layouts/Layout.astro';
+import { SITE } from '../config';
+---
+
+<Layout
+  title="Politique de cookies — NPG"
+  description="Politique de cookies du site societe-npg.fr : finalités, durées de conservation, comment refuser."
+  canonical={`${SITE.url}/politique-de-cookies-ue/`}
+>
+
+  <section class="page-hero">
+    <div class="container">
+      <nav class="breadcrumb">
+        <a href="/">Accueil</a><span>›</span><span>Politique de cookies</span>
+      </nav>
+      <h1>Politique de cookies</h1>
+    </div>
+  </section>
+
+  <div class="content-wrap">
+    <div class="container static-wrap">
+
+      <p>Cette page décrit les cookies utilisés sur le site <strong>{SITE.url}</strong>, édité par NPG, et les moyens dont vous disposez pour les paramétrer ou les refuser.</p>
+
+      <h2>1. Qu'est-ce qu'un cookie ?</h2>
+      <p>Un cookie est un petit fichier texte déposé sur votre terminal (ordinateur, smartphone, tablette) lorsque vous visitez un site internet. Il permet au site de mémoriser certaines informations entre vos visites ou de mesurer la fréquentation du site.</p>
+
+      <h2>2. Cookies utilisés sur ce site</h2>
+
+      <h3>Cookies de mesure d'audience (Google Analytics)</h3>
+      <p>Le site utilise Google Analytics, un service d'analyse fourni par Google LLC, afin de mesurer la fréquentation et de comprendre comment les visiteurs utilisent le site. Les données collectées sont anonymisées dans la mesure du possible et servent uniquement à des fins statistiques.</p>
+      <ul class="check-list">
+        <li><strong>Finalité :</strong> mesure d'audience, statistiques de visite, amélioration du contenu.</li>
+        <li><strong>Données collectées :</strong> adresse IP (anonymisée), pages consultées, durée des visites, type de navigateur, source de trafic.</li>
+        <li><strong>Durée de conservation :</strong> 13 mois maximum à compter du dépôt.</li>
+        <li><strong>Destinataire :</strong> Google LLC, dans le cadre des conditions d'utilisation de Google Analytics.</li>
+      </ul>
+
+      <h3>Cookies techniques</h3>
+      <p>Le site peut déposer des cookies strictement nécessaires à son bon fonctionnement (mémorisation du choix relatif aux cookies, gestion de session). Ces cookies ne nécessitent pas votre consentement préalable.</p>
+
+      <h2>3. Aucun cookie publicitaire</h2>
+      <p>Le site n'utilise aucun cookie publicitaire ni cookie de profilage à des fins de ciblage marketing. Vos données ne sont pas vendues ni transmises à des tiers à des fins commerciales.</p>
+
+      <h2>4. Comment refuser ou supprimer les cookies ?</h2>
+      <p>Vous pouvez à tout moment paramétrer votre navigateur pour refuser les cookies ou pour être averti avant leur dépôt. La procédure varie selon le navigateur utilisé :</p>
+      <ul class="check-list">
+        <li><strong>Google Chrome :</strong> Paramètres › Confidentialité › Cookies et autres données des sites.</li>
+        <li><strong>Mozilla Firefox :</strong> Paramètres › Vie privée › Cookies et données de sites.</li>
+        <li><strong>Safari :</strong> Préférences › Confidentialité › Cookies et données de sites web.</li>
+        <li><strong>Microsoft Edge :</strong> Paramètres › Cookies et autorisations de site.</li>
+      </ul>
+      <p>Pour s'opposer spécifiquement à Google Analytics, vous pouvez installer le module complémentaire de désactivation proposé par Google : <a href="https://tools.google.com/dlpage/gaoptout" target="_blank" rel="noopener">tools.google.com/dlpage/gaoptout</a>.</p>
+
+      <h2>5. Vos droits</h2>
+      <p>Conformément au RGPD et à la loi Informatique et Libertés, vous disposez d'un droit d'accès, de rectification, d'effacement, de limitation et d'opposition concernant les données traitées via les cookies. Pour exercer ces droits, écrivez-nous à <a href={`mailto:${SITE.email}`}>{SITE.email}</a>.</p>
+
+      <h2>6. Mise à jour de la politique</h2>
+      <p>La présente politique peut être mise à jour pour refléter les évolutions techniques ou réglementaires. La date de dernière mise à jour est indiquée ci-dessous.</p>
+      <p><em>Dernière mise à jour : mai 2026.</em></p>
+
+    </div>
+  </div>
+
+</Layout>

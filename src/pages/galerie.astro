@@ -1,0 +1,74 @@
+---
+// src/pages/galerie.astro
+import Layout from '../layouts/Layout.astro';
+import { SITE } from '../config';
+
+const IMG = '/assets/img/photos-npg';
+
+const photos = [
+  { src: `${IMG}/nettoyage-bureaux-professionnel-npg.webp`,        alt: "Nettoyage de bureaux professionnels dans l'Essonne — NPG" },
+  { src: `${IMG}/nettoyage-bureaux-open-space-npg.webp`,           alt: "Nettoyage d'un open space de bureaux" },
+  { src: `${IMG}/aspiration-moquette-bureaux-npg.webp`,            alt: "Aspiration de la moquette de bureaux" },
+  { src: `${IMG}/entretien-bureaux-espace-travail-npg.webp`,       alt: "Entretien d'un espace de travail" },
+  { src: `${IMG}/nettoyage-parties-communes-immeuble-npg.webp`,    alt: "Nettoyage des parties communes d'un immeuble" },
+  { src: `${IMG}/nettoyage-escalier-parties-communes-npg.webp`,    alt: "Nettoyage d'escalier dans les parties communes" },
+  { src: `${IMG}/nettoyage-entree-immeuble-habitat-collectif-npg.webp`, alt: "Nettoyage de l'entrée d'un habitat collectif" },
+  { src: `${IMG}/nettoyage-surfaces-vitrees-veranda-npg.webp`,     alt: "Nettoyage de surfaces vitrées et véranda" },
+  { src: `${IMG}/nettoyage-vitres-bureaux-essonne-npg.webp`,       alt: "Nettoyage des vitres de bureaux dans l'Essonne" },
+  { src: `${IMG}/nettoyage-sol-autolaveuse-salle-npg.webp`,        alt: "Nettoyage de sol à l'autolaveuse" },
+  { src: `${IMG}/autolaveuse-entrepot-nettoyage-industriel-npg.webp`, alt: "Autolaveuse en nettoyage industriel d'entrepôt" },
+  { src: `${IMG}/nettoyage-moquette-rouge-injection-extraction-npg.webp`, alt: "Shampooing de moquette par injection-extraction" },
+  { src: `${IMG}/polisseuse-parquet-npg.webp`,                     alt: "Polissage d'un parquet" },
+  { src: `${IMG}/tonte-pelouse-entretien-espaces-verts-npg.webp`,  alt: "Tonte de pelouse et entretien des espaces verts" },
+  { src: `${IMG}/taille-haie-entretien-espaces-verts-npg.webp`,    alt: "Taille de haie en entretien des espaces verts" },
+  { src: `${IMG}/nettoyage-haute-pression-copropriete-npg.webp`,   alt: "Nettoyage haute pression en copropriété" },
+  { src: `${IMG}/nettoyage-terrasse-haute-pression-npg.webp`,      alt: "Nettoyage de terrasse au nettoyeur haute pression" },
+  { src: `${IMG}/nettoyage-facade-maison-npg.webp`,                alt: "Nettoyage de façade de maison" },
+  { src: `${IMG}/nettoyage-parking-couvert-npg.webp`,              alt: "Nettoyage d'un parking couvert" },
+  { src: `${IMG}/nettoyage-entrepot-logistique-npg.webp`,          alt: "Nettoyage d'un entrepôt logistique" },
+  { src: `${IMG}/equipe-nettoyage-entrepot-logistique-npg.webp`,   alt: "Équipe NPG en nettoyage d'entrepôt" },
+  { src: `${IMG}/equipe-agents-nettoyage-npg.webp`,                alt: "Équipe d'agents de nettoyage NPG" },
+  { src: `${IMG}/vehicule-societe-nettoyage-npg.webp`,             alt: "Véhicule de la société de nettoyage NPG" },
+  { src: `${IMG}/camions-npg-parking-npg.webp`,                    alt: "Camions NPG sur un parking" },
+];
+---
+
+<Layout
+  title="Galerie — Nos interventions de nettoyage dans l'Essonne | NPG"
+  description="Galerie d'interventions de nettoyage réalisées par NPG dans l'Essonne (91) : bureaux, parties communes, sols, vitres, espaces verts et nettoyage haute pression."
+  canonical={`${SITE.url}/galerie/`}
+>
+
+  <section class="page-hero">
+    <div class="container">
+      <nav class="breadcrumb">
+        <a href="/">Accueil</a><span>›</span><span>Galerie</span>
+      </nav>
+      <h1>Galerie — Nos interventions de nettoyage dans l'Essonne</h1>
+      <p class="page-hero__desc">Quelques interventions réalisées dans l'Essonne (91) — bureaux, parties communes, sols, vitres, espaces verts et nettoyage haute pression.</p>
+    </div>
+  </section>
+
+  <div class="content-wrap">
+    <div class="container">
+
+      <p>Ces photos sont issues de chantiers réalisés par NPG dans l'Essonne et les communes limitrophes. Elles donnent un aperçu de notre travail au quotidien : entretien de bureaux et de locaux, nettoyage des parties communes, remise en état des sols, lavage des surfaces vitrées, entretien des espaces verts et nettoyage extérieur haute pression. Pour un projet précis, contactez-nous au {SITE.tel} ou via le <a href="/devis-gratuit/">formulaire de devis</a>.</p>
+
+      <div class="galerie-grid">
+        {photos.map(p => (
+          <div class="galerie-item">
+            <img src={p.src} alt={p.alt} loading="lazy">
+          </div>
+        ))}
+      </div>
+
+      <div class="cluster-cta" style="margin-top:3rem">
+        <h3>Un projet de nettoyage dans l'Essonne ?</h3>
+        <p>Devis gratuit et sans engagement, intervention dans tout le département.</p>
+        <a href="/devis-gratuit/" class="btn btn--red">Demander un devis</a>
+      </div>
+
+    </div>
+  </div>
+
+</Layout>

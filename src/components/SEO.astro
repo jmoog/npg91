@@ -1,0 +1,69 @@
+---
+// src/components/SEO.astro
+import { SITE } from '../config';
+
+interface Props {
+  title:       string;
+  description: string;
+  canonical:   string;
+  ogImage?:    string;
+  schema?:     object | string;
+  noindex?:    boolean;
+}
+
+const {
+  title,
+  description,
+  canonical,
+  ogImage  = `${SITE.url}/assets/img/og-default.jpg`,
+  schema,
+  noindex  = false,
+} = Astro.props;
+
+const schemaStr = schema
+  ? (typeof schema === 'string' ? schema : JSON.stringify(schema, null, 0))
+  : '';
+
+// Schema WebSite minimal commun à toutes les pages.
+// L'entité Organization/CleaningService canonique est définie dans les schemas
+// spécifiques de chaque page (avec le même @id pour que Google déduplique).
+// On ne ré-injecte donc pas l'Organization ici (gain de poids HTML, anti-doublon).
+const schemaWebsite = {
+  '@context':   'https://schema.org',
+  '@type':      'WebSite',
+  '@id':        `${SITE.url}/#website`,
+  name:         `${SITE.nom} — Entreprise de nettoyage Essonne (91)`,
+  url:          SITE.url,
+  inLanguage:   'fr-FR',
+  publisher:    { '@id': `${SITE.url}/#organization` },
+};
+---
+
+<!-- Essentiels -->
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>{title}</title>
+<meta name="description" content={description}>
+<link rel="canonical" href={canonical}>
+{noindex && <meta name="robots" content="noindex, nofollow">}
+
+<!-- Open Graph -->
+<meta property="og:type"        content="website">
+<meta property="og:url"         content={canonical}>
+<meta property="og:title"       content={title}>
+<meta property="og:description" content={description}>
+<meta property="og:image"       content={ogImage}>
+<meta property="og:locale"      content="fr_FR">
+<meta property="og:site_name"   content={SITE.nom}>
+
+<!-- Twitter Card -->
+<meta name="twitter:card"        content="summary_large_image">
+<meta name="twitter:title"       content={title}>
+<meta name="twitter:description" content={description}>
+<meta name="twitter:image"       content={ogImage}>
+
+<!-- Schema.org WebSite (minimal commun) -->
+<script type="application/ld+json" set:html={JSON.stringify(schemaWebsite)} />
+
+<!-- Schema.org spécifique à la page (Organization/RoofingContractor + entités page) -->
+{schemaStr && <script type="application/ld+json" set:html={schemaStr} />}

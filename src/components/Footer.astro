@@ -1,0 +1,354 @@
+---
+// src/components/Footer.astro — Footer 4 colonnes avec bloc contact
+import { SITE } from '../config';
+const year = new Date().getFullYear();
+
+// Prestations de nettoyage — renvoient vers les sections de la page d'accueil
+// (#ancre). À faire évoluer vers /services/<slug>/ quand les pages dédiées seront créées.
+const topServices = [
+  { slug: 'nettoyage-bureaux',  nom: 'Nettoyage de bureaux' },
+  { slug: 'parties-communes',   nom: 'Parties communes & copropriétés' },
+  { slug: 'surfaces-vitrees',   nom: 'Surfaces vitrées' },
+  { slug: 'nettoyage-sols',     nom: 'Nettoyage et entretien des sols' },
+  { slug: 'espaces-verts',      nom: 'Entretien des espaces verts' },
+  { slug: 'haute-pression',     nom: 'Nettoyage haute pression' },
+];
+
+// Liens utiles du site (remplace la colonne villes tant que les pages communes
+// ne sont pas créées).
+const liensUtiles = [
+  { href: '/',                 nom: 'Accueil' },
+  { href: '/a-propos/',        nom: 'À propos' },
+  { href: '/galerie/',         nom: 'Galerie' },
+  { href: '/devis-gratuit/',   nom: 'Devis gratuit' },
+  { href: '/contact/',         nom: 'Contact' },
+];
+---
+
+<footer class="ft">
+
+  <!-- Footer 4 colonnes -->
+  <div class="container ft__main">
+
+    <!-- Colonne 1 : marque -->
+    <div class="ft__col ft__col--brand">
+      <a href="/" class="ft__logo">
+        <picture>
+          <source srcset="/assets/img/logo/logo.webp" type="image/webp">
+          <img src="/assets/img/logo/logo.png" alt={SITE.nom} width="134" height="56" loading="lazy" decoding="async">
+        </picture>
+      </a>
+      <p class="ft__about">
+        Entreprise de nettoyage professionnel dans l'Essonne (91). Bureaux,
+        locaux, parties communes, vitres, sols et espaces verts. Intervention
+        dans tout le département et en Île-de-France.
+      </p>
+      <div class="ft__contact-line">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+        <span>{SITE.adresse}</span>
+      </div>
+      <div class="ft__contact-line">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+        <a href={`mailto:${SITE.email}`}>{SITE.email}</a>
+      </div>
+    </div>
+
+    <!-- Colonne 2 : prestations de nettoyage -->
+    <div class="ft__col">
+      <h4>Nos prestations</h4>
+      <ul>
+        {topServices.map(s => (
+          <li><a href={`/#${s.slug}`}>{s.nom}</a></li>
+        ))}
+      </ul>
+    </div>
+
+    <!-- Colonne 3 : liens utiles -->
+    <div class="ft__col">
+      <h4>Liens utiles</h4>
+      <ul>
+        {liensUtiles.map(l => (
+          <li><a href={l.href}>{l.nom}</a></li>
+        ))}
+      </ul>
+    </div>
+
+    <!-- Colonne 4 : contact + boutons CTA -->
+    <div class="ft__col ft__col--contact">
+      <h4>Nous contacter</h4>
+      <div class="ft__contact-block">
+        <p class="ft__contact-intro">Devis gratuit, intervention dans tout l'Essonne (Lun-Ven, 7h-21h).</p>
+        <a href={`tel:${SITE.telLink}`} class="ft__btn ft__btn--phone">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <rect x="6" y="2" width="12" height="20" rx="2.5"/>
+            <line x1="11" y1="18" x2="13" y2="18"/>
+          </svg>
+          {SITE.tel}
+        </a>
+        <a href="/devis-gratuit/" class="ft__btn ft__btn--devis">
+          Demander une intervention
+        </a>
+        <a href={`https://wa.me/33${SITE.telLink.replace(/^0/, '')}`} class="ft__btn ft__btn--wa" target="_blank" rel="noopener">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+          WhatsApp
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Bandeau bas : copyright + liens utilitaires -->
+  <div class="ft__bottom">
+    <div class="container ft__bottom-inner">
+      <span class="ft__copy">&copy; {year} {SITE.nom} — {SITE.siret}</span>
+      <nav class="ft__legal">
+        <a href="/a-propos/">À propos</a>
+        <a href="/contact/">Contact</a>
+        <a href="/galerie/">Galerie</a>
+        <a href="/mentions-legales/">Mentions légales</a>
+        <a href="/politique-de-cookies-ue/">Cookies</a>
+        <a href="/plan-du-site/">Plan du site</a>
+      </nav>
+    </div>
+  </div>
+
+</footer>
+
+
+<style is:global>
+/* ============================================================
+   FOOTER — 4 colonnes avec bandeau CTA et bandeau bas
+   ============================================================ */
+
+.ft { background: #0a0a14; color: rgba(255,255,255,.85); margin-top: 0; }
+
+/* === Bandeau CTA top === */
+.ft__cta-band {
+  background: linear-gradient(120deg, var(--blue-d) 0%, var(--blue) 100%);
+  padding: 1.6rem 0;
+}
+.ft__cta-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.5rem;
+  flex-wrap: wrap;
+}
+.ft__cta-text { display: flex; flex-direction: column; gap: .15rem; }
+.ft__cta-text strong {
+  color: var(--white);
+  font-size: 1.1rem;
+  font-weight: 800;
+}
+.ft__cta-text span {
+  color: rgba(255,255,255,.78);
+  font-size: .92rem;
+}
+.ft__cta-btns { display: flex; gap: .65rem; flex-wrap: wrap; }
+.ft__cta-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: .5rem;
+  padding: .85rem 1.4rem;
+  border-radius: 8px;
+  font-weight: 700;
+  font-size: .9rem;
+  text-decoration: none;
+  transition: all var(--transition);
+  white-space: nowrap;
+}
+.ft__cta-btn--phone {
+  background: var(--white);
+  color: var(--blue-d);
+  border: 1px solid var(--white);
+}
+.ft__cta-btn--phone:hover { background: var(--blue-l); transform: translateY(-2px); }
+.ft__cta-btn--devis {
+  background: var(--red);
+  color: var(--white);
+}
+.ft__cta-btn--devis:hover { background: var(--red-d); transform: translateY(-2px); }
+
+/* === Footer principal 4 colonnes === */
+.ft__main {
+  display: grid;
+  grid-template-columns: 1.4fr 1fr 1fr 1.2fr;
+  gap: 2.5rem;
+  padding: 3rem 1.5rem 2.5rem;
+}
+.ft__col h4 {
+  color: var(--white);
+  font-size: .98rem;
+  font-weight: 800;
+  margin: 0 0 1rem;
+  letter-spacing: .02em;
+  position: relative;
+  padding-bottom: .55rem;
+}
+.ft__col h4::after {
+  content: "";
+  position: absolute;
+  left: 0; bottom: 0;
+  width: 28px; height: 3px;
+  background: var(--red);
+  border-radius: 2px;
+}
+.ft__col ul {
+  list-style: none; padding: 0; margin: 0;
+  display: flex; flex-direction: column; gap: .55rem;
+}
+.ft__col a {
+  color: rgba(255,255,255,.78);
+  text-decoration: none;
+  font-size: .88rem;
+  transition: color var(--transition);
+}
+.ft__col a:hover { color: var(--white); }
+.ft__more {
+  color: var(--white) !important;
+  font-weight: 600;
+  margin-top: .35rem;
+}
+.ft__more:hover { color: var(--red) !important; }
+
+/* === Col 1 : Marque === */
+.ft__col--brand .ft__logo {
+  display: inline-block;
+  background: var(--white);
+  padding: 1rem 1.4rem;
+  border-radius: 12px;
+  margin-bottom: 1.4rem;
+  box-shadow: 0 4px 14px rgba(0,0,0,.25);
+}
+.ft__col--brand .ft__logo img {
+  display: block;
+  height: 56px;
+  width: auto;
+  /* annule le filter brightness(0) invert(1) hérité du CSS global */
+  filter: none !important;
+  opacity: 1 !important;
+}
+.ft__about {
+  color: rgba(255,255,255,.78);
+  font-size: .9rem;
+  line-height: 1.6;
+  margin: 0 0 1.2rem;
+}
+.ft__contact-line {
+  display: flex; align-items: flex-start; gap: .55rem;
+  font-size: .85rem;
+  color: rgba(255,255,255,.78);
+  margin-bottom: .55rem;
+}
+.ft__contact-line svg {
+  color: var(--red);
+  flex-shrink: 0;
+  margin-top: .2rem;
+}
+.ft__contact-line a { color: rgba(255,255,255,.78); text-decoration: none; }
+.ft__contact-line a:hover { color: var(--white); }
+
+/* === Col 4 : Contact === */
+.ft__col--contact .ft__contact-block {
+  display: flex; flex-direction: column;
+  align-items: flex-start;       /* boutons à leur taille naturelle (pas full width) */
+  gap: .55rem;
+}
+.ft__contact-intro {
+  color: rgba(255,255,255,.78);
+  font-size: .88rem;
+  line-height: 1.5;
+  margin: 0 0 .35rem;
+}
+/* Boutons CTA — spécificité augmentée pour battre .ft__col a */
+.ft .ft__btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: .45rem;
+  padding: .55rem .9rem;          /* plus compact */
+  border-radius: 8px;
+  font-weight: 700;
+  font-size: .82rem;
+  text-decoration: none;
+  transition: all var(--transition);
+  align-self: flex-start;          /* ne s'étire pas sur la largeur de la colonne */
+}
+.ft .ft__btn svg { width: 14px; height: 14px; }
+.ft .ft__btn--phone {
+  background: var(--white);
+  color: var(--blue-d);
+}
+.ft .ft__btn--phone:hover { background: var(--blue-l); color: var(--blue-d); transform: translateY(-2px); }
+.ft .ft__btn--devis {
+  background: var(--red);
+  color: var(--white);
+}
+.ft .ft__btn--devis:hover { background: var(--red-d); color: var(--white); transform: translateY(-2px); }
+.ft .ft__btn--wa {
+  background: #25D366;
+  color: var(--white);
+}
+.ft .ft__btn--wa:hover { background: #128C7E; color: var(--white); transform: translateY(-2px); }
+
+/* === Bandeau bas : copyright + légal === */
+.ft__bottom {
+  background: rgba(0,0,0,.4);
+  border-top: 1px solid rgba(255,255,255,.08);
+  padding: 1.1rem 0;
+  font-size: .8rem;
+}
+.ft__bottom-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+.ft__copy { color: rgba(255,255,255,.55); }
+.ft__legal { display: flex; gap: 1.2rem; flex-wrap: wrap; }
+.ft__legal a {
+  color: rgba(255,255,255,.65);
+  text-decoration: none;
+  transition: color var(--transition);
+}
+.ft__legal a:hover { color: var(--white); }
+
+/* === Responsive === */
+@media (max-width: 980px) {
+  .ft__main { grid-template-columns: repeat(2, 1fr); gap: 2rem; padding: 2.5rem 1.5rem 2rem; }
+  .ft__col--brand { grid-column: 1 / span 2; }
+  .ft__cta-inner { flex-direction: column; text-align: center; }
+}
+
+@media (max-width: 540px) {
+  /* 1 colonne, tout centré */
+  .ft__main { grid-template-columns: 1fr; gap: 2.25rem; padding: 2.5rem 1.25rem 2rem; }
+  .ft__col { text-align: center; }
+  .ft__col--brand { grid-column: 1; }
+
+  /* Titres avec barre rouge centrée sous */
+  .ft__col h4 { display: inline-block; padding-bottom: .6rem; }
+  .ft__col h4::after { left: 50%; transform: translateX(-50%); }
+
+  /* Listes liens centrées */
+  .ft__col ul { align-items: center; }
+
+  /* Bloc marque centré */
+  .ft__col--brand .ft__logo { margin-left: auto; margin-right: auto; display: inline-block; }
+  .ft__about { max-width: 320px; margin-left: auto; margin-right: auto; }
+  .ft__contact-line { justify-content: center; }
+
+  /* Bloc contact : boutons compacts et centrés */
+  .ft__col--contact .ft__contact-block { align-items: center; }
+  .ft .ft__btn {
+    width: auto;
+    min-width: 220px;
+    max-width: 280px;
+    align-self: center;
+  }
+
+  /* Bandeau bas centré */
+  .ft__bottom-inner { flex-direction: column; text-align: center; }
+  .ft__legal { justify-content: center; }
+}
+</style>

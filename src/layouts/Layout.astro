@@ -1,0 +1,230 @@
+---
+// src/layouts/Layout.astro — Optimisé Lighthouse (perfs : fonts inline, preload LCP, GA différé)
+//   - @font-face inline dans <head> + preload des 2 poids critiques
+//   - CSS principal après les fonts, avant le rendu
+//   - Google Analytics chargé en defer en fin de body (ne bloque pas FCP)
+//   - Possibilité de preload une image LCP via la prop `lcpImage`
+import SEO from '../components/SEO.astro';
+import Nav from '../components/Nav.astro';
+import Footer from '../components/Footer.astro';
+import { SITE } from '../config';
+
+interface Props {
+  title?:       string;
+  description?: string;
+  canonical?:   string;
+  ogImage?:     string;
+  schema?:      object | string;
+  noindex?:     boolean;
+  /** Si fourni, l'image est préchargée (utile pour le LCP du hero) */
+  lcpImage?:    string;
+}
+
+const {
+  title       = SITE.seoTitle,
+  description = SITE.seoDesc,
+  canonical   = SITE.url + '/',
+  ogImage,
+  schema,
+  noindex     = false,
+  lcpImage,
+} = Astro.props;
+---
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+
+  <SEO
+    title={title}
+    description={description}
+    canonical={canonical}
+    ogImage={ogImage}
+    schema={schema}
+    noindex={noindex}
+  />
+
+  <!-- Google Search Console : à compléter avec le token de vérification NPG -->
+  {/* <meta name="google-site-verification" content="TOKEN_A_COMPLETER" /> */}
+
+  <!-- Preload de tous les poids d'Inter utilisés above-the-fold
+       (sinon Lighthouse les voit en chaîne critique : 500/600/800 sont
+        utilisés par la nav et les titres de section, 900 par le H1 hero LCP) -->
+  <link rel="preload" as="font" type="font/woff2" href="/assets/fonts/inter-latin-400-normal.woff2" crossorigin>
+  <link rel="preload" as="font" type="font/woff2" href="/assets/fonts/inter-latin-500-normal.woff2" crossorigin>
+  <link rel="preload" as="font" type="font/woff2" href="/assets/fonts/inter-latin-600-normal.woff2" crossorigin>
+  <link rel="preload" as="font" type="font/woff2" href="/assets/fonts/inter-latin-700-normal.woff2" crossorigin>
+  <link rel="preload" as="font" type="font/woff2" href="/assets/fonts/inter-latin-800-normal.woff2" crossorigin>
+  <link rel="preload" as="font" type="font/woff2" href="/assets/fonts/inter-latin-900-normal.woff2" crossorigin>
+
+  <!-- Preload image LCP si fournie (anti-LCP slow) -->
+  {lcpImage && <link rel="preload" as="image" href={lcpImage} fetchpriority="high">}
+
+  <!-- @font-face inline pour démarrer le chargement avant le CSS -->
+  <style>
+    @font-face { font-family:'Inter'; src:url('/assets/fonts/inter-latin-400-normal.woff2') format('woff2'); font-weight:400; font-style:normal; font-display:swap; }
+    @font-face { font-family:'Inter'; src:url('/assets/fonts/inter-latin-500-normal.woff2') format('woff2'); font-weight:500; font-style:normal; font-display:swap; }
+    @font-face { font-family:'Inter'; src:url('/assets/fonts/inter-latin-600-normal.woff2') format('woff2'); font-weight:600; font-style:normal; font-display:swap; }
+    @font-face { font-family:'Inter'; src:url('/assets/fonts/inter-latin-700-normal.woff2') format('woff2'); font-weight:700; font-style:normal; font-display:swap; }
+    @font-face { font-family:'Inter'; src:url('/assets/fonts/inter-latin-800-normal.woff2') format('woff2'); font-weight:800; font-style:normal; font-display:swap; }
+    @font-face { font-family:'Inter'; src:url('/assets/fonts/inter-latin-900-normal.woff2') format('woff2'); font-weight:900; font-style:normal; font-display:swap; }
+  </style>
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" sizes="32x32" href="/assets/img/favicon/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/assets/img/favicon/favicon-16x16.png">
+  <link rel="apple-touch-icon" href="/assets/img/favicon/apple-touch-icon.png">
+
+  <!-- CSS principal — preload pour démarrer le DL le plus tôt possible
+       (équivalent à un <link rel="stylesheet"> mais sans bloquer le parsing HTML). -->
+  <link rel="preload" as="style" href="/assets/css/style.css" onload="this.onload=null;this.rel='stylesheet'">
+  <noscript><link rel="stylesheet" href="/assets/css/style.css"></noscript>
+
+</head>
+<body>
+  <Nav />
+  <slot />
+  <Footer />
+
+  <!-- JS principal (différé, après le rendu) -->
+  <script src="/assets/js/main.js" defer></script>
+
+  <!-- ═══ BANDEAU COOKIES + GA4 (chargé après consentement uniquement) ═══ -->
+  <style>
+    .cookie-banner {
+      position: fixed;
+      bottom: 1rem;
+      left: 1rem;
+      right: 1rem;
+      max-width: 540px;
+      margin: 0 auto;
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 1.1rem 1.3rem;
+      box-shadow: 0 12px 40px rgba(0,0,0,.18);
+      z-index: 9999;
+      animation: cookieSlideUp .35s ease-out;
+    }
+    @keyframes cookieSlideUp {
+      from { transform: translateY(120%); opacity: 0; }
+      to   { transform: translateY(0);    opacity: 1; }
+    }
+    .cookie-banner__inner {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+    .cookie-banner__icon {
+      font-size: 2rem;
+      line-height: 1;
+      flex-shrink: 0;
+      animation: cookieWobble 3s ease-in-out infinite;
+    }
+    @keyframes cookieWobble {
+      0%, 100% { transform: rotate(0deg); }
+      25%      { transform: rotate(-8deg); }
+      75%      { transform: rotate(8deg); }
+    }
+    .cookie-banner__text {
+      margin: 0;
+      flex: 1;
+      min-width: 200px;
+      font-size: .85rem;
+      line-height: 1.45;
+      color: var(--text);
+    }
+    .cookie-banner__text a { color: var(--blue); }
+    .cookie-banner__actions {
+      display: flex;
+      gap: .5rem;
+      flex-shrink: 0;
+    }
+    .cookie-banner__btn {
+      padding: .55rem 1.1rem;
+      border-radius: 8px;
+      font-size: .85rem;
+      font-weight: 700;
+      cursor: pointer;
+      border: none;
+      transition: transform .15s, background .15s;
+    }
+    .cookie-banner__btn:hover { transform: translateY(-1px); }
+    .cookie-banner__btn--accept {
+      background: var(--red);
+      color: #fff;
+    }
+    .cookie-banner__btn--accept:hover { background: var(--red-d); }
+    .cookie-banner__btn--ghost {
+      background: transparent;
+      color: var(--muted);
+      text-decoration: underline;
+      padding: .55rem .8rem;
+    }
+    .cookie-banner__btn--ghost:hover { color: var(--text); }
+    @media(max-width: 480px) {
+      .cookie-banner { padding: 1rem; bottom: .5rem; left: .5rem; right: .5rem; }
+      .cookie-banner__inner { flex-direction: column; align-items: stretch; text-align: center; }
+      .cookie-banner__actions { justify-content: center; }
+    }
+  </style>
+
+  <div id="cookie-banner" class="cookie-banner" hidden>
+    <div class="cookie-banner__inner">
+      <span class="cookie-banner__icon" aria-hidden="true">🍪</span>
+      <p class="cookie-banner__text">
+        Ce site utilise des cookies de mesure d'audience pour améliorer votre expérience. <a href="/politique-de-cookies-ue/">En savoir plus</a>.
+      </p>
+      <div class="cookie-banner__actions">
+        <button id="cookie-decline" class="cookie-banner__btn cookie-banner__btn--ghost" type="button">Refuser</button>
+        <button id="cookie-accept"  class="cookie-banner__btn cookie-banner__btn--accept" type="button">Accepter</button>
+      </div>
+    </div>
+  </div>
+
+  <script is:inline>
+    (function() {
+      var KEY = 'npg-cookie-consent';
+      var GA_ID = ''; // ← Renseigner l'ID GA4 NPG (format G-XXXXXXX) pour activer la mesure d'audience
+
+      function loadGA() {
+        if (!GA_ID) return; // pas d'ID configuré → aucune mesure d'audience chargée
+        if (window.__npgGALoaded) return;
+        window.__npgGALoaded = true;
+        var s = document.createElement('script');
+        s.async = true;
+        s.src = 'https://www.googletagmanager.com/gtag/js?id=' + GA_ID;
+        document.head.appendChild(s);
+        window.dataLayer = window.dataLayer || [];
+        window.gtag = function(){ window.dataLayer.push(arguments); };
+        window.gtag('js', new Date());
+        window.gtag('config', GA_ID, { anonymize_ip: true });
+      }
+
+      var banner = document.getElementById('cookie-banner');
+      var btnYes = document.getElementById('cookie-accept');
+      var btnNo  = document.getElementById('cookie-decline');
+      var stored = null;
+      try { stored = localStorage.getItem(KEY); } catch (e) {}
+
+      if (stored === 'accepted') {
+        loadGA();
+      } else if (stored !== 'declined') {
+        // Premier visiteur : on montre le bandeau après un court délai
+        setTimeout(function(){ if (banner) banner.hidden = false; }, 800);
+      }
+
+      btnYes && btnYes.addEventListener('click', function() {
+        try { localStorage.setItem(KEY, 'accepted'); } catch (e) {}
+        if (banner) banner.hidden = true;
+        loadGA();
+      });
+
+      btnNo && btnNo.addEventListener('click', function() {
+        try { localStorage.setItem(KEY, 'declined'); } catch (e) {}
+        if (banner) banner.hidden = true;
+      });
+    })();
+  </script>
+</body>
+</html>

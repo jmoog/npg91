@@ -1,0 +1,7 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://societe-npg.fr/sitemap-index.xml
+
+# Ressources pour les agents IA / LLM
+# Index : https://societe-npg.fr/llms.txt

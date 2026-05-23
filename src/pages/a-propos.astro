@@ -1,0 +1,79 @@
+---
+// src/pages/a-propos.astro
+import Layout from '../layouts/Layout.astro';
+import { SITE } from '../config';
+
+const IMG = '/assets/img/photos-npg';
+
+const schema = {
+  '@context': 'https://schema.org',
+  '@type':    'AboutPage',
+  url:        `${SITE.url}/a-propos/`,
+  about: {
+    '@type':   'CleaningService',
+    name:      SITE.nom,
+    telephone: SITE.tel,
+    url:       SITE.url,
+    address: {
+      '@type':         'PostalAddress',
+      addressLocality: SITE.ville,
+      postalCode:      SITE.cp,
+      addressCountry:  'FR',
+    },
+  },
+};
+---
+
+<Layout
+  title="À propos — NPG, entreprise de nettoyage dans l'Essonne (91)"
+  description="NPG, entreprise familiale de nettoyage professionnel dans l'Essonne : bureaux, parties communes, sols, vitres et espaces verts. Une équipe expérimentée à votre service."
+  canonical={`${SITE.url}/a-propos/`}
+  schema={schema}
+>
+
+  <section class="page-hero">
+    <div class="container">
+      <nav class="breadcrumb">
+        <a href="/">Accueil</a><span>›</span><span>À propos</span>
+      </nav>
+      <h1>NPG — Une équipe de professionnels du nettoyage</h1>
+      <p class="page-hero__desc">Une entreprise familiale au service des entreprises, des syndics de copropriété et des particuliers, partout dans l'Essonne (91).</p>
+    </div>
+  </section>
+
+  <div class="content-wrap">
+    <div class="container static-wrap">
+
+      <p>NPG est une équipe de professionnels au service des entreprises, des syndics de copropriété et des particuliers. Nous travaillons en équipe. De petite taille, nous nous adaptons aux besoins de nos clients : cette souplesse est un gage de qualité et de réactivité.</p>
+
+      <p style="margin:1.5rem 0;">
+        <img src={`${IMG}/equipe-agents-nettoyage-npg.webp`} alt="L'équipe d'agents de nettoyage NPG dans l'Essonne" loading="lazy" style="width:100%;border-radius:14px;" />
+      </p>
+
+      <h2>Notre histoire</h2>
+      <p>NPG, c'est avant tout une histoire familiale. M. {SITE.artisan} est l'héritier d'une entreprise familiale. À l'origine, il y a la création d'une activité par le père : un entrepreneur dans l'âme, qui a décidé de se lancer dans le domaine du nettoyage. Nos services s'adressent à tous les secteurs : entreprises, secteur tertiaire, particuliers. Depuis l'origine, NPG cultive au quotidien la satisfaction de ses clients.</p>
+      <p>La crise de la Covid a mis en évidence l'importance de l'hygiène et de la propreté pour le bon fonctionnement de notre économie et de notre société. Sur le lieu de travail comme à la maison, salariés et particuliers attachent désormais beaucoup d'importance à leur cadre de vie. La propreté d'un lieu de travail, d'un lieu à vivre, est devenue une préoccupation majeure.</p>
+
+      <h2>Pourquoi nous choisir ?</h2>
+      <p>Professionnels du nettoyage, nous connaissons vos besoins et identifions vos contraintes pour vous proposer un service adapté.</p>
+      <ul class="check-list">
+        <li><strong>Un service de qualité</strong> — la satisfaction de nos clients est au cœur de nos préoccupations. Professionnel ou particulier, il n'y a pas de petit client.</li>
+        <li><strong>Un suivi professionnel</strong> — nous assurons le contrôle et le suivi de nos interventions, avec des comptes rendus réguliers.</li>
+        <li><strong>Un équipement professionnel</strong> — nous utilisons des équipements adaptés à chaque mission, fournis par les plus grandes marques.</li>
+        <li><strong>Des employés expérimentés</strong> — nos agents sont formés et suivis, avec une expérience solide dans le domaine du nettoyage.</li>
+      </ul>
+
+      <h2>Une prestation efficace et responsable</h2>
+      <p>Nos prestations sont adaptées aux besoins de nos clients. Pour cela, nous faisons une proposition simple et efficace, et nous nous adaptons à votre budget. Vous n'avez qu'un seul interlocuteur. Nous vous proposons un service à la carte, déterminé en fonction de vos besoins.</p>
+      <p>La propreté est essentielle à votre activité et à votre confort. Pour cela, il faut la confier à un professionnel du nettoyage.</p>
+
+      <h2>Demander un devis</h2>
+      <p>Pour un projet de nettoyage dans l'Essonne, vous pouvez joindre NPG au {SITE.tel} ou par email à <a href={`mailto:${SITE.email}`}>{SITE.email}</a>. Le formulaire en ligne permet également d'envoyer une demande détaillée.</p>
+      <p>
+        <a href="/devis-gratuit/" class="btn btn--red">Demander un devis gratuit</a>
+      </p>
+
+    </div>
+  </div>
+
+</Layout>
