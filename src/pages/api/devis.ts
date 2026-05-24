@@ -386,7 +386,7 @@ export const POST: APIRoute = async ({ request }) => {
   const r2 = await brevoSend({
     apiKey,
     fromEmail,
-    fromName: `${ARTISAN} — ${ENTREPRISE}`,
+    fromName: `Société ${ENTREPRISE}`,
     to: [{ email: data.email, name: data.nom }],
     replyTo: { email: fromEmail, name: fromName },
     subject: ack.subject,

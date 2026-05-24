@@ -43,6 +43,10 @@ const schema = {
       <p>NPG, c'est avant tout une histoire familiale. M. {SITE.artisan} est l'héritier d'une entreprise familiale. À l'origine, il y a la création d'une activité par le père : un entrepreneur dans l'âme, qui a décidé de se lancer dans le domaine du nettoyage. Nos services s'adressent à tous les secteurs : entreprises, secteur tertiaire, particuliers. Depuis l'origine, NPG cultive au quotidien la satisfaction de ses clients.</p>
       <p>La crise de la Covid a mis en évidence l'importance de l'hygiène et de la propreté pour le bon fonctionnement de notre économie et de notre société. Sur le lieu de travail comme à la maison, salariés et particuliers attachent désormais beaucoup d'importance à leur cadre de vie. La propreté d'un lieu de travail, d'un lieu à vivre, est devenue une préoccupation majeure.</p>
 
+      <p style="margin:1.5rem 0;">
+        <img src={`${IMG}/bg-camions-npg-parking-2.webp`} alt="La flotte de camionnettes NPG, entreprise de nettoyage dans l'Essonne (91)" loading="lazy" width="1200" height="675" style="width:100%;border-radius:14px;" />
+      </p>
+
       <h2>Pourquoi nous choisir ?</h2>
       <p>Professionnels du nettoyage, nous connaissons vos besoins et identifions vos contraintes pour vous proposer un service adapté.</p>
       <ul class="check-list">
@@ -56,13 +60,35 @@ const schema = {
       <p>Nos prestations sont adaptées aux besoins de nos clients. Pour cela, nous faisons une proposition simple et efficace, et nous nous adaptons à votre budget. Vous n'avez qu'un seul interlocuteur. Nous vous proposons un service à la carte, déterminé en fonction de vos besoins.</p>
       <p>La propreté est essentielle à votre activité et à votre confort. Pour cela, il faut la confier à un professionnel du nettoyage.</p>
 
-      <h2>Nous contacter</h2>
-      <p>Pour un projet de nettoyage dans l'Essonne, vous pouvez joindre NPG au {SITE.tel} ou par email à <a href={`mailto:${SITE.email}`}>{SITE.email}</a>. Le formulaire en ligne permet également d'envoyer une demande détaillée.</p>
-      <p>
-        <a href="/contact/" class="btn btn--red">Envoyer un message</a>
-      </p>
-
     </div>
   </div>
 
+  <section class="ap-cta">
+    <div class="container">
+      <div class="ap-cta__box">
+        <h2>Confiez l'entretien de vos locaux à NPG</h2>
+        <p>Bureaux, copropriétés, commerces, sites industriels ou espaces verts : NPG intervient dans tout l'Essonne (91), du lundi au vendredi de 7h à 21h. Déplacement gratuit pour évaluer vos besoins, sans engagement.</p>
+        <div class="ap-cta__btns">
+          <a href={`tel:${SITE.telLink}`} class="btn btn--red">{SITE.tel}</a>
+          <a href="/contact/" class="btn btn--white">Envoyer un message</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
 </Layout>
+
+<style>
+.ap-cta { padding: 1rem 0 4rem; }
+.ap-cta__box {
+  background: var(--blue-d);
+  border-radius: 20px;
+  padding: 2.5rem 2rem;
+  text-align: center;
+  max-width: 860px;
+  margin: 0 auto;
+}
+.ap-cta__box h2 { color: #fff; margin: 0 0 .75rem; font-size: clamp(1.3rem, 2.6vw, 1.8rem); line-height: 1.25; }
+.ap-cta__box p { color: rgba(255,255,255,.85); margin: 0 auto 1.6rem; max-width: 620px; line-height: 1.65; }
+.ap-cta__btns { display: flex; gap: .75rem; justify-content: center; flex-wrap: wrap; }
+</style>
