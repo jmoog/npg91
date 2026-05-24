@@ -2,6 +2,7 @@
 // src/components/Footer.astro — Footer 4 colonnes avec bloc contact
 import { SITE } from '../config';
 import { SERVICES } from '../data/services';
+import { VILLES } from '../data/villes';
 const year = new Date().getFullYear();
 
 // Prestations de nettoyage — pages dédiées /services/<slug>/ (6 principales affichées).
@@ -86,6 +87,18 @@ const liensUtiles = [
           WhatsApp
         </a>
       </div>
+    </div>
+  </div>
+
+  <!-- Bande zones d'intervention : pages villes (maillage interne) -->
+  <div class="ft__villes-band">
+    <div class="container">
+      <h4 class="ft__villes-title">Nettoyage dans l'Essonne (91) — nos zones d'intervention</h4>
+      <ul class="ft__villes">
+        {VILLES.map(v => (
+          <li><a href={`/entreprise-nettoyage-${v.slug}/`}>{v.nom}</a></li>
+        ))}
+      </ul>
     </div>
   </div>
 
@@ -282,6 +295,33 @@ const liensUtiles = [
   color: var(--white);
 }
 .ft .ft__btn--wa:hover { background: #128C7E; color: var(--white); transform: translateY(-2px); }
+
+/* === Bande zones d'intervention (villes) === */
+.ft__villes-band {
+  border-top: 1px solid rgba(255,255,255,.08);
+  padding: 1.6rem 0;
+}
+.ft__villes-band .container { padding-left: 1.5rem; padding-right: 1.5rem; }
+.ft__villes-title {
+  color: rgba(255,255,255,.85);
+  font-size: .9rem;
+  font-weight: 700;
+  margin: 0 0 .9rem;
+}
+.ft__villes {
+  list-style: none; padding: 0; margin: 0;
+  display: flex; flex-wrap: wrap; gap: .5rem .65rem;
+}
+.ft__villes a {
+  color: rgba(255,255,255,.72);
+  text-decoration: none;
+  font-size: .84rem;
+  padding: .3rem .8rem;
+  border: 1px solid rgba(255,255,255,.14);
+  border-radius: 50px;
+  transition: all var(--transition);
+}
+.ft__villes a:hover { color: var(--white); border-color: var(--red); background: rgba(255,255,255,.04); }
 
 /* === Bandeau bas : copyright + légal === */
 .ft__bottom {

@@ -41,7 +41,7 @@ export default defineConfig({
         // priorités : home > services > villes > pages standards
         if (path === '/') item.priority = 1.0;
         else if (path.startsWith('/services/')) item.priority = 0.8;
-        else if (path.startsWith('/villes/')) item.priority = 0.7;
+        else if (path.startsWith('/entreprise-nettoyage-')) item.priority = 0.7;
         else item.priority = 0.5;
 
         item.changefreq = 'monthly';

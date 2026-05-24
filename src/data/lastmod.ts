@@ -25,6 +25,17 @@ export const LASTMOD: Record<string, string> = {
   '/services/entretien-espaces-verts/':    '2026-05-24T10:00:00+02:00',
   '/services/nettoyage-fin-de-chantier/':  '2026-05-24T10:00:00+02:00',
   '/services/nettoyage-collectivites/':    '2026-05-24T10:00:00+02:00',
+  // Pages villes (créées le 24/05/2026)
+  '/entreprise-nettoyage-evry-courcouronnes/':          '2026-05-24T10:00:00+02:00',
+  '/entreprise-nettoyage-corbeil-essonnes/':            '2026-05-24T10:00:00+02:00',
+  '/entreprise-nettoyage-palaiseau/':                   '2026-05-24T10:00:00+02:00',
+  '/entreprise-nettoyage-massy/':                       '2026-05-24T10:00:00+02:00',
+  '/entreprise-nettoyage-saclay/':                      '2026-05-24T10:00:00+02:00',
+  '/entreprise-nettoyage-les-ulis/':                    '2026-05-24T10:00:00+02:00',
+  '/entreprise-nettoyage-villebon-sur-yvette/':         '2026-05-24T10:00:00+02:00',
+  '/entreprise-nettoyage-wissous/':                     '2026-05-24T10:00:00+02:00',
+  '/entreprise-nettoyage-longjumeau/':                  '2026-05-24T10:00:00+02:00',
+  '/entreprise-nettoyage-sainte-genevieve-des-bois/':   '2026-05-24T10:00:00+02:00',
 };
 
 /** Retourne la date lastmod pour une URL ou un chemin. Tolérant aux variations de slash. */

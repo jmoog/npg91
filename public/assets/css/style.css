@@ -124,7 +124,9 @@ p  { line-height:1.75; color:var(--text-mid); }
    Style Atrakt : ring pulse + carte contact au clic
    ============================================================ */
 .fab { position:fixed; bottom:40px; right:24px; z-index:95; }
-@media(max-width:768px) { .fab { bottom:80px; right:16px; opacity:0; visibility:hidden; transition:opacity .3s, visibility .3s; } .fab--visible { opacity:1; visibility:visible; } }
+/* Mobile : FAB visible en permanence (avant : masqué jusqu'à 400px de scroll via JS,
+   ce qui le rendait absent sur les pages villes/services au chargement). */
+@media(max-width:768px) { .fab { bottom:80px; right:16px; } }
 
 .fab__btn {
     display:flex; align-items:center; justify-content:center;

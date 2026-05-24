@@ -570,9 +570,8 @@ export const SERVICES: Service[] = [
     title: "Nettoyage de collectivités et bâtiments publics – 91 | NPG",
     description: "Mairies, administrations, salles polyvalentes : NPG entretient vos bâtiments publics dans l'Essonne (91). Protocoles d'hygiène adaptés. Marchés publics.",
     h1: "Entretien des mairies, administrations et bâtiments publics dans l'Essonne (91)",
-    heroImg: `${IMG}/equipe-nettoyage-professionnel-npg.webp`,
-    heroAlt: "L'équipe de nettoyage professionnel NPG dans l'Essonne",
-    heroWide: true,
+    heroImg: `${IMG}/nettoyage-salle-polyvalente-autolaveuse-npg.webp`,
+    heroAlt: "Nettoyage d'une salle polyvalente à l'autolaveuse par NPG dans l'Essonne (91)",
     homeImg: `${IMG}/nettoyage-sols-restaurant-npg.webp`,
     lead: "Mairies, administrations, salles polyvalentes et locaux de collectivités accueillent du public et exigent une hygiène irréprochable. <strong>NPG</strong> assure le <strong>nettoyage des bâtiments publics et collectivités dans l'Essonne (91)</strong>, avec des protocoles adaptés et des équipes formées.",
     inclus: {

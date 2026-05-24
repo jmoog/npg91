@@ -3,9 +3,12 @@
 import Layout from '../layouts/Layout.astro';
 import { SITE } from '../config';
 import { SERVICES } from '../data/services';
+import { VILLES } from '../data/villes';
 
 // Prestations → pages dédiées /services/<slug>/
 const prestations = SERVICES.map(s => ({ href: `/services/${s.slug}/`, nom: s.nom }));
+// Pages villes → /entreprise-nettoyage-<slug>/
+const villes = VILLES.map(v => ({ href: `/entreprise-nettoyage-${v.slug}/`, nom: v.nom }));
 ---
 
 <Layout
@@ -44,6 +47,16 @@ const prestations = SERVICES.map(s => ({ href: `/services/${s.slug}/`, nom: s.no
         <ul class="sitemap__list">
           {prestations.map(p => (
             <li><a href={p.href}>{p.nom}</a></li>
+          ))}
+        </ul>
+      </div>
+
+      <div class="sitemap__section">
+        <h2>Zones d'intervention</h2>
+        <p style="margin:0 0 .75rem;">Nettoyage dans l'Essonne (91), commune par commune :</p>
+        <ul class="sitemap__list">
+          {villes.map(v => (
+            <li><a href={v.href}>Nettoyage à {v.nom}</a></li>
           ))}
         </ul>
       </div>
