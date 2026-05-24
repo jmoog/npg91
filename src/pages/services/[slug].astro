@@ -1,0 +1,385 @@
+---
+// src/pages/services/[slug].astro — Template des pages services NPG
+import Layout from '../../layouts/Layout.astro';
+import { SITE } from '../../config';
+import { SERVICES, SERVICE_BY_SLUG, type Service } from '../../data/services';
+
+export function getStaticPaths() {
+  return SERVICES.map(s => ({ params: { slug: s.slug }, props: { service: s } }));
+}
+
+interface Props { service: Service }
+const { service } = Astro.props;
+const s = service;
+
+const canonical = `${SITE.url}/services/${s.slug}/`;
+const related = s.related.map(slug => SERVICE_BY_SLUG[slug]).filter(Boolean);
+
+// ── Schemas : Service + BreadcrumbList + FAQPage ──
+// Prestataire : on référence l'entité CleaningService canonique (#organization,
+// définie en entier sur la home) tout en embarquant ses champs clés, pour que la
+// page service soit auto-suffisante si Google la crawle isolément.
+const provider = {
+  '@type':    ['CleaningService', 'LocalBusiness'],
+  '@id':      `${SITE.url}/#organization`,
+  name:        SITE.nom,
+  url:         SITE.url,
+  telephone:   SITE.tel.replace(/\s/g, '').replace(/^0/, '+33'),
+  image:       `${SITE.url}${SITE.logo}`,
+  address: {
+    '@type':         'PostalAddress',
+    streetAddress:   SITE.streetAddress,
+    addressLocality: SITE.ville,
+    postalCode:      SITE.cp,
+    addressRegion:   'Essonne',
+    addressCountry:  'FR',
+  },
+};
+
+const areaServed = { '@type': 'AdministrativeArea', name: 'Essonne', containedInPlace: { '@type': 'State', name: 'Île-de-France' } };
+
+const schema = [
+  {
+    '@context': 'https://schema.org',
+    '@type':    'Service',
+    '@id':      `${canonical}#service`,
+    name:        s.nom,
+    serviceType: s.serviceType ?? s.nom,
+    description: s.description,
+    url:         canonical,
+    provider,
+    areaServed,
+    image:       `${SITE.url}${s.heroImg}`,
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type':    'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Accueil',  item: `${SITE.url}/` },
+      { '@type': 'ListItem', position: 2, name: 'Services',  item: `${SITE.url}/services/` },
+      { '@type': 'ListItem', position: 3, name: s.nom,       item: canonical },
+    ],
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type':    'FAQPage',
+    mainEntity: s.faq.map(f => ({
+      '@type': 'Question',
+      name: f.q,
+      acceptedAnswer: { '@type': 'Answer', text: f.r },
+    })),
+  },
+];
+---
+
+<Layout
+  title={s.title}
+  description={s.description}
+  canonical={canonical}
+  schema={schema}
+  lcpImage={s.heroImg}
+>
+
+  <!-- 1. HERO + breadcrumb -->
+  <section class="page-hero">
+    <div class="container">
+      <nav class="breadcrumb">
+        <a href="/">Accueil</a><span>›</span><a href="/services/">Services</a><span>›</span><span>{s.nom}</span>
+      </nav>
+      <h1>{s.h1}</h1>
+      <p class="page-hero__desc" set:html={s.lead}></p>
+      <div class="svc-hero__cta">
+        <a href="/contact/" class="btn btn--red">Demander un devis gratuit</a>
+        <a href={`tel:${SITE.telLink}`} class="btn btn--outline">{SITE.tel}</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- 2. IMAGE + prestation incluse -->
+  {s.heroWide ? (
+    <Fragment>
+      <section class="svc-banner">
+        <div class="container">
+          <img src={s.heroImg} alt={s.heroAlt} width="1600" height="900" loading="eager" fetchpriority="high" decoding="async" class="svc-banner__img" />
+        </div>
+      </section>
+      <section class="svc-main svc-main--full">
+        <div class="container">
+          <h2>{s.inclus.titre}</h2>
+          <ul class="svc-checklist svc-checklist--cols">
+            {s.inclus.items.map(item => (
+              <li>
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
+                <span>{item}</span>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </section>
+    </Fragment>
+  ) : (
+    <section class="svc-main">
+      <div class="container svc-main__grid">
+        <div class="svc-main__media">
+          <img src={s.heroImg} alt={s.heroAlt} width="720" height="540" loading="eager" fetchpriority="high" decoding="async" />
+        </div>
+        <div class="svc-main__inclus">
+          <h2>{s.inclus.titre}</h2>
+          <ul class="svc-checklist">
+            {s.inclus.items.map(item => (
+              <li>
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
+                <span>{item}</span>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </div>
+    </section>
+  )}
+
+  <!-- 3. BLOC contenu + image -->
+  <section class="svc-bloc">
+    <div class="container svc-bloc__grid">
+      <div class="svc-bloc__body">
+        <h2>{s.bloc.titre}</h2>
+        {s.bloc.paragraphes.map(p => <p>{p}</p>)}
+        <a href="/contact/" class="svc-bloc__cta">
+          Nous contacter
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+        </a>
+      </div>
+      <div class={`svc-bloc__media ${s.bloc.imgNarrow ? 'svc-bloc__media--narrow' : ''}`}>
+        <img src={s.bloc.img} alt={s.bloc.imgAlt} loading="lazy" decoding="async" />
+      </div>
+    </div>
+  </section>
+
+  <!-- 3bis. GALERIE (optionnelle) -->
+  {s.gallery && s.gallery.length > 0 && (
+    <section class="svc-gallery">
+      <div class="container">
+        <div class="svc-gallery__grid" style={`--cols:${s.gallery.length}`}>
+          {s.gallery.map(g => (
+            <figure class="svc-gallery__item">
+              <img src={g.img} alt={g.alt} loading="lazy" decoding="async" />
+            </figure>
+          ))}
+        </div>
+      </div>
+    </section>
+  )}
+
+  <!-- 3ter. PARAGRAPHE LIEN CONTEXTUALISÉ (optionnel) -->
+  {s.relatedNote && (
+    <section class="svc-note">
+      <div class="container">
+        <p set:html={s.relatedNote}></p>
+      </div>
+    </section>
+  )}
+
+  <!-- 4. ATOUTS -->
+  <section class="svc-atouts">
+    <div class="container">
+      <div class="h-prest__head">
+        <span class="h-prest__bar"></span>
+        <h2>Pourquoi confier ce service à NPG&nbsp;?</h2>
+      </div>
+      <div class="svc-atouts__grid">
+        {s.atouts.map(a => (
+          <article class="svc-atouts__card">
+            <span class="svc-atouts__check">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
+            </span>
+            <p>{a}</p>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- 5. FAQ -->
+  <section class="svc-faq">
+    <div class="container">
+      <div class="h-prest__head">
+        <span class="h-prest__bar"></span>
+        <h2>Questions fréquentes — {s.nom.toLowerCase()}</h2>
+      </div>
+      <div class="svc-faq__grid">
+        {s.faq.map(f => (
+          <article class="svc-faq__card">
+            <h3>{f.q}</h3>
+            <p>{f.r}</p>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- 6. SERVICES CONNEXES -->
+  {related.length > 0 && (
+    <section class="svc-related">
+      <div class="container">
+        <div class="h-prest__head">
+          <span class="h-prest__bar"></span>
+          <h2>Nos autres prestations de nettoyage</h2>
+        </div>
+        <div class="svc-related__grid">
+          {related.map(r => (
+            <a href={`/services/${r.slug}/`} class="svc-related__card" style={`background-image:url('${r.heroImg}')`}>
+              <span class="svc-related__tag">
+                <strong>{r.nom}</strong>
+                <em>{r.tagline}</em>
+              </span>
+            </a>
+          ))}
+        </div>
+        <p class="svc-related__all"><a href="/services/">Voir toutes nos prestations →</a></p>
+      </div>
+    </section>
+  )}
+
+  <!-- 7. CTA final -->
+  <section class="svc-cta">
+    <div class="container svc-cta__inner">
+      <div>
+        <h2>Besoin des services d'un professionnel du nettoyage dans l'Essonne (91)&nbsp;?</h2>
+        <p>NPG se déplace gratuitement dans tout le département (91) pour évaluer vos besoins et vous remettre une proposition détaillée, sans engagement.</p>
+      </div>
+      <div class="svc-cta__btns">
+        <a href={`tel:${SITE.telLink}`} class="btn btn--white">{SITE.tel}</a>
+        <a href="/contact/" class="btn btn--red">Envoyer un message</a>
+      </div>
+    </div>
+  </section>
+
+</Layout>
+
+<style>
+/* ── Titre de section (barre rouge + h2) — autonome car .h-prest__head
+   n'est stylé que dans index.astro (pas chargé sur les pages services) ── */
+.h-prest__head { display:flex; align-items:center; gap:.85rem; margin-bottom:2rem; }
+.h-prest__bar { width:4px; height:28px; background:var(--red); border-radius:2px; flex-shrink:0; }
+.h-prest__head h2 { color:var(--blue-d); font-size:clamp(1.35rem,2.6vw,1.85rem); margin:0; font-weight:800; line-height:1.25; }
+
+/* ── HERO CTA ── */
+.svc-hero__cta { display:flex; flex-wrap:wrap; gap:.75rem; margin-top:1.5rem; }
+
+/* ── 2b. BANNIÈRE LARGE (heroWide) ── */
+.svc-banner { padding:2.5rem 0 0; background:var(--white); }
+.svc-banner__img { width:100%; height:auto; max-height:560px; object-fit:cover; border-radius:18px; box-shadow:var(--shadow-md); display:block; }
+.svc-main--full { padding:2.2rem 0 3.5rem; }
+.svc-main--full h2 { margin:0 0 1.25rem; font-size:clamp(1.35rem,2.6vw,1.8rem); }
+.svc-checklist--cols { display:grid; grid-template-columns:1fr 1fr; gap:.7rem 2.5rem; }
+@media (max-width:680px){ .svc-checklist--cols { grid-template-columns:1fr; } }
+
+/* ── 2. IMAGE + INCLUS ── */
+.svc-main { padding:3.5rem 0; background:var(--white); }
+.svc-main__grid {
+  display:grid; grid-template-columns:minmax(0,1fr) minmax(0,1fr);
+  gap:2.5rem; align-items:center;
+}
+.svc-main__media img {
+  width:100%; height:100%; max-height:460px; object-fit:cover;
+  border-radius:18px; box-shadow:var(--shadow-md); display:block;
+}
+.svc-main__inclus h2 { margin:0 0 1.25rem; font-size:clamp(1.35rem,2.6vw,1.8rem); }
+.svc-checklist { list-style:none; padding:0; margin:0; display:flex; flex-direction:column; gap:.7rem; }
+.svc-checklist li { display:flex; align-items:flex-start; gap:.7rem; color:var(--text); font-size:1rem; line-height:1.5; }
+.svc-checklist svg { flex-shrink:0; color:var(--red); margin-top:.2rem; }
+
+/* ── 3. BLOC ── */
+.svc-bloc { padding:3.5rem 0; background:var(--light); }
+.svc-bloc__grid {
+  display:grid; grid-template-columns:minmax(0,1.1fr) minmax(0,1fr);
+  gap:2.5rem; align-items:center;
+}
+.svc-bloc__body h2 { margin:0 0 1rem; font-size:clamp(1.35rem,2.6vw,1.8rem); }
+.svc-bloc__body p { margin:0 0 1rem; font-size:1rem; line-height:1.7; color:var(--text-mid); }
+.svc-bloc__cta {
+  display:inline-flex; align-items:center; gap:.5rem; margin-top:.5rem;
+  color:var(--red); font-weight:700; text-decoration:underline; text-underline-offset:4px;
+  transition:gap var(--transition);
+}
+.svc-bloc__cta:hover { gap:.85rem; color:var(--red-d); }
+.svc-bloc__media img { width:100%; height:auto; border-radius:18px; box-shadow:var(--shadow-md); display:block; }
+/* Image source petite (portrait) : on la borne à sa taille native pour éviter le flou */
+.svc-bloc__media--narrow img { max-width:340px; margin-inline:auto; }
+
+/* ── 3bis. GALERIE ── */
+.svc-gallery { padding:0 0 3.5rem; background:var(--light); }
+/* max-width limitée : les photos sources sont petites (~253-337px),
+   on évite le sur-agrandissement (donc le flou) en bornant la grille.
+   auto-fit + justify-center : s'adapte au nombre d'images (1, 2 ou 3) sans étirer. */
+/* 1 colonne par image (via --cols) → toutes les images sur une ligne en desktop ;
+   plafond 240px = images jamais sur-agrandies (nettes). */
+.svc-gallery__grid { display:grid; grid-template-columns:repeat(var(--cols, 3), minmax(0, 240px)); gap:1rem; max-width:1000px; margin-inline:auto; justify-content:center; }
+.svc-gallery__item { margin:0; border-radius:16px; overflow:hidden; box-shadow:var(--shadow); aspect-ratio:3/4; }
+.svc-gallery__item img { width:100%; height:100%; object-fit:cover; display:block; transition:transform var(--transition); }
+.svc-gallery__item:hover img { transform:scale(1.04); }
+@media (max-width:680px){ .svc-gallery__grid { grid-template-columns:1fr 1fr; } }
+
+/* ── 3ter. PARAGRAPHE LIEN CONTEXTUALISÉ ── */
+.svc-note { padding:2.5rem 0; background:var(--white); }
+.svc-note p { max-width:760px; margin:0; color:var(--text-mid); font-size:1rem; line-height:1.75; }
+.svc-note a { color:var(--red); font-weight:600; text-decoration:underline; text-underline-offset:3px; }
+.svc-note a:hover { color:var(--red-d); }
+
+/* ── 4. ATOUTS ── */
+.svc-atouts { padding:3.5rem 0; background:var(--white); }
+.svc-atouts__grid { display:grid; grid-template-columns:repeat(2,1fr); gap:1.1rem; }
+.svc-atouts__card {
+  display:flex; align-items:flex-start; gap:.9rem;
+  background:var(--blue-l); border-radius:14px; padding:1.25rem 1.4rem;
+}
+.svc-atouts__card p { margin:0; color:var(--blue-d); font-weight:500; line-height:1.5; }
+.svc-atouts__check {
+  flex-shrink:0; width:34px; height:34px; border-radius:9px;
+  background:var(--red); color:var(--white);
+  display:inline-flex; align-items:center; justify-content:center;
+}
+
+/* ── 5. FAQ ── */
+.svc-faq { padding:3.5rem 0; background:var(--light); }
+.svc-faq__grid { display:grid; grid-template-columns:repeat(2,1fr); gap:1.1rem; }
+.svc-faq__card { background:var(--white); border:1px solid var(--border); border-radius:14px; padding:1.4rem 1.5rem; box-shadow:var(--shadow); }
+.svc-faq__card h3 { margin:0 0 .55rem; font-size:1.02rem; color:var(--blue-d); line-height:1.35; }
+.svc-faq__card p { margin:0; font-size:.92rem; color:var(--text-mid); line-height:1.6; }
+
+/* ── 6. SERVICES CONNEXES ── */
+.svc-related { padding:3.5rem 0; background:var(--white); }
+.svc-related__grid { display:grid; grid-template-columns:repeat(3,1fr); gap:1.1rem; }
+.svc-related__card {
+  position:relative; min-height:200px; border-radius:16px; overflow:hidden;
+  background-color:#2c3e50; background-size:cover; background-position:center;
+  box-shadow:var(--shadow); display:block; text-decoration:none;
+  transition:transform var(--transition), box-shadow var(--transition);
+}
+.svc-related__card::after { content:""; position:absolute; inset:0; background:linear-gradient(180deg,rgba(0,0,0,0) 40%,rgba(0,0,0,.55) 100%); transition:background var(--transition); }
+.svc-related__card:hover { transform:translateY(-3px); box-shadow:var(--shadow-md); }
+.svc-related__card:hover::after { background:linear-gradient(180deg,rgba(0,0,0,.1) 0%,rgba(78,156,58,.5) 100%); }
+.svc-related__tag { position:absolute; left:16px; right:16px; bottom:14px; z-index:2; }
+.svc-related__tag strong { display:block; color:var(--white); font-size:1.02rem; font-weight:800; line-height:1.2; text-shadow:0 1px 6px rgba(0,0,0,.5); }
+.svc-related__tag em { display:block; color:rgba(255,255,255,.9); font-style:normal; font-size:.8rem; margin-top:.15rem; text-shadow:0 1px 5px rgba(0,0,0,.5); }
+.svc-related__all { text-align:center; margin:1.75rem 0 0; }
+.svc-related__all a { color:var(--red); font-weight:700; }
+
+/* ── 7. CTA FINAL ── */
+.svc-cta { padding:3.5rem 0; background:var(--blue-d); color:var(--white); }
+.svc-cta__inner { display:flex; align-items:center; justify-content:space-between; gap:2rem; flex-wrap:wrap; }
+.svc-cta h2 { color:var(--white); font-size:clamp(1.3rem,2.6vw,1.85rem); margin:0 0 .5rem; }
+.svc-cta p { color:rgba(255,255,255,.82); margin:0; max-width:560px; line-height:1.6; }
+.svc-cta__btns { display:flex; gap:.75rem; flex-wrap:wrap; }
+
+/* ── RESPONSIVE ── */
+@media (max-width:880px) {
+  .svc-main__grid, .svc-bloc__grid { grid-template-columns:1fr; }
+  .svc-main__media { order:-1; }
+  .svc-atouts__grid, .svc-faq__grid, .svc-related__grid { grid-template-columns:1fr; }
+  .svc-cta__inner { flex-direction:column; align-items:flex-start; }
+}
+@media (min-width:881px) and (max-width:1024px) {
+  .svc-related__grid { grid-template-columns:repeat(3,1fr); }
+}
+</style>

@@ -1,19 +1,11 @@
 ---
 // src/components/Nav.astro — Header desktop redesigné
 import { SITE } from '../config';
+import { SERVICES } from '../data/services';
 
 // Prestations de nettoyage affichées dans le méga-menu.
-// Tant que les pages services dédiées n'existent pas, chaque entrée pointe vers
-// la section correspondante de la page d'accueil (#ancre). Quand les pages
-// /services/... seront créées, remplacer href par `/services/<slug>/`.
-const services = [
-  { slug: 'nettoyage-bureaux',     nom: 'Nettoyage de bureaux',     desc: 'Espaces de travail sains et nets' },
-  { slug: 'parties-communes',      nom: 'Parties communes',         desc: 'Halls, escaliers, copropriétés' },
-  { slug: 'surfaces-vitrees',      nom: 'Surfaces vitrées',         desc: 'Vitres, vitrines, vérandas' },
-  { slug: 'nettoyage-sols',        nom: 'Nettoyage des sols',       desc: 'Autolaveuse, monobrosse, moquettes' },
-  { slug: 'espaces-verts',         nom: 'Entretien des espaces verts', desc: 'Tonte, haies, abords' },
-  { slug: 'haute-pression',        nom: 'Nettoyage haute pression', desc: 'Façades, terrasses, parkings' },
-];
+// Source unique : src/data/services.ts → chaque entrée pointe vers /services/<slug>/.
+const services = SERVICES.map(s => ({ slug: s.slug, nom: s.nom, desc: s.tagline }));
 ---
 
 <header class="hd">
@@ -33,7 +25,7 @@ const services = [
         <li><a href="/" class="nav-new__link">Accueil</a></li>
 
         <li class="nav-new__dd">
-          <a href="/#prestations" class="nav-new__link nav-new__link--has-dd">
+          <a href="/services/" class="nav-new__link nav-new__link--has-dd">
             Nos prestations
             <svg width="10" height="6" viewBox="0 0 10 6" aria-hidden="true">
               <path d="M1 1l4 4 4-4" stroke="currentColor" stroke-width="1.8" fill="none" stroke-linecap="round"/>
@@ -42,13 +34,13 @@ const services = [
           <div class="nav-new__mega" role="menu">
             <div class="nav-new__mega-grid">
               {services.map(s => (
-                <a href={`/#${s.slug}`} class="nav-new__mega-item" role="menuitem">
+                <a href={`/services/${s.slug}/`} class="nav-new__mega-item" role="menuitem">
                   <strong>{s.nom}</strong>
                   <small>{s.desc}</small>
                 </a>
               ))}
             </div>
-            <a href="/#prestations" class="nav-new__mega-foot">Voir toutes nos prestations →</a>
+            <a href="/services/" class="nav-new__mega-foot">Voir toutes nos prestations →</a>
           </div>
         </li>
 

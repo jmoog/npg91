@@ -1,0 +1,90 @@
+---
+// src/pages/services/index.astro — Hub des prestations de nettoyage NPG
+import Layout from '../../layouts/Layout.astro';
+import { SITE } from '../../config';
+import { SERVICES } from '../../data/services';
+
+const canonical = `${SITE.url}/services/`;
+
+const schema = [
+  {
+    '@context': 'https://schema.org',
+    '@type':    'CollectionPage',
+    url:        canonical,
+    name:       "Nos prestations de nettoyage dans l'Essonne (91)",
+    about:      { '@id': `${SITE.url}/#organization` },
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type':    'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Accueil',  item: `${SITE.url}/` },
+      { '@type': 'ListItem', position: 2, name: 'Services',  item: canonical },
+    ],
+  },
+];
+---
+
+<Layout
+  title="Nos prestations de nettoyage dans l'Essonne (91) | NPG"
+  description="Découvrez toutes les prestations de nettoyage NPG dans l'Essonne (91) : bureaux, copropriétés, industriel, commerces, vitres, sols, espaces verts et haute pression. Devis gratuit."
+  canonical={canonical}
+  schema={schema}
+>
+
+  <section class="page-hero">
+    <div class="container">
+      <nav class="breadcrumb">
+        <a href="/">Accueil</a><span>›</span><span>Services</span>
+      </nav>
+      <h1>Nos prestations de nettoyage dans l'Essonne (91)</h1>
+      <p class="page-hero__desc">Entreprise de nettoyage multiservices, NPG intervient auprès des professionnels, des syndics et des collectivités dans tout le département. Découvrez l'ensemble de nos prestations et demandez un devis gratuit.</p>
+    </div>
+  </section>
+
+  <section class="svc-hub">
+    <div class="container">
+      <div class="svc-hub__grid">
+        {SERVICES.map(s => (
+          <a href={`/services/${s.slug}/`} class="svc-hub__card">
+            <span class="svc-hub__img" style={`background-image:url('${s.heroImg}')`}></span>
+            <span class="svc-hub__body">
+              <strong>{s.nom}</strong>
+              <em>{s.tagline}</em>
+              <span class="svc-hub__more">En savoir plus
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+              </span>
+            </span>
+          </a>
+        ))}
+      </div>
+
+      <div class="svc-hub__cta">
+        <a href="/contact/" class="btn btn--red">Demander un devis gratuit</a>
+        <a href={`tel:${SITE.telLink}`} class="btn btn--outline">{SITE.tel}</a>
+      </div>
+    </div>
+  </section>
+
+</Layout>
+
+<style>
+.svc-hub { padding:3.5rem 0; background:var(--light); }
+.svc-hub__grid { display:grid; grid-template-columns:repeat(3,1fr); gap:1.25rem; }
+.svc-hub__card {
+  background:var(--white); border-radius:18px; overflow:hidden;
+  box-shadow:var(--shadow); text-decoration:none; display:flex; flex-direction:column;
+  transition:transform var(--transition), box-shadow var(--transition);
+}
+.svc-hub__card:hover { transform:translateY(-4px); box-shadow:var(--shadow-md); }
+.svc-hub__img { display:block; height:170px; background-size:cover; background-position:center; }
+.svc-hub__body { padding:1.1rem 1.3rem 1.3rem; display:flex; flex-direction:column; gap:.2rem; }
+.svc-hub__body strong { color:var(--blue-d); font-size:1.08rem; font-weight:800; line-height:1.25; }
+.svc-hub__body em { color:var(--muted); font-style:normal; font-size:.86rem; margin-bottom:.5rem; }
+.svc-hub__more { display:inline-flex; align-items:center; gap:.4rem; color:var(--red); font-weight:700; font-size:.9rem; transition:gap var(--transition); }
+.svc-hub__card:hover .svc-hub__more { gap:.7rem; }
+.svc-hub__cta { display:flex; gap:.75rem; justify-content:center; flex-wrap:wrap; margin-top:2.5rem; }
+
+@media (max-width:980px) { .svc-hub__grid { grid-template-columns:repeat(2,1fr); } }
+@media (max-width:600px) { .svc-hub__grid { grid-template-columns:1fr; } }
+</style>

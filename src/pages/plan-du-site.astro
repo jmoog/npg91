@@ -2,18 +2,10 @@
 // src/pages/plan-du-site.astro
 import Layout from '../layouts/Layout.astro';
 import { SITE } from '../config';
+import { SERVICES } from '../data/services';
 
-// Prestations (ancres de la page d'accueil tant que les pages dédiées n'existent pas)
-const prestations = [
-  { href: '/#nettoyage-bureaux', nom: 'Nettoyage de bureaux' },
-  { href: '/#parties-communes',  nom: 'Parties communes & copropriétés' },
-  { href: '/#surfaces-vitrees',  nom: 'Surfaces vitrées' },
-  { href: '/#nettoyage-sols',    nom: 'Nettoyage et entretien des sols' },
-  { href: '/#moquettes',         nom: 'Shampooing de moquettes' },
-  { href: '/#espaces-verts',     nom: 'Entretien des espaces verts' },
-  { href: '/#haute-pression',    nom: 'Nettoyage haute pression' },
-  { href: '/#remise-en-etat',    nom: 'Nettoyage de fin de chantier' },
-];
+// Prestations → pages dédiées /services/<slug>/
+const prestations = SERVICES.map(s => ({ href: `/services/${s.slug}/`, nom: s.nom }));
 ---
 
 <Layout
@@ -48,6 +40,7 @@ const prestations = [
 
       <div class="sitemap__section">
         <h2>Nos prestations</h2>
+        <p style="margin:0 0 .75rem;"><a href="/services/"><strong>Toutes nos prestations de nettoyage</strong></a></p>
         <ul class="sitemap__list">
           {prestations.map(p => (
             <li><a href={p.href}>{p.nom}</a></li>

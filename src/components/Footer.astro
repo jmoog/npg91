@@ -1,18 +1,11 @@
 ---
 // src/components/Footer.astro — Footer 4 colonnes avec bloc contact
 import { SITE } from '../config';
+import { SERVICES } from '../data/services';
 const year = new Date().getFullYear();
 
-// Prestations de nettoyage — renvoient vers les sections de la page d'accueil
-// (#ancre). À faire évoluer vers /services/<slug>/ quand les pages dédiées seront créées.
-const topServices = [
-  { slug: 'nettoyage-bureaux',  nom: 'Nettoyage de bureaux' },
-  { slug: 'parties-communes',   nom: 'Parties communes & copropriétés' },
-  { slug: 'surfaces-vitrees',   nom: 'Surfaces vitrées' },
-  { slug: 'nettoyage-sols',     nom: 'Nettoyage et entretien des sols' },
-  { slug: 'espaces-verts',      nom: 'Entretien des espaces verts' },
-  { slug: 'haute-pression',     nom: 'Nettoyage haute pression' },
-];
+// Prestations de nettoyage — pages dédiées /services/<slug>/ (6 principales affichées).
+const topServices = SERVICES.slice(0, 6).map(s => ({ slug: s.slug, nom: s.nom }));
 
 // Liens utiles du site (remplace la colonne villes tant que les pages communes
 // ne sont pas créées).
@@ -57,8 +50,9 @@ const liensUtiles = [
       <h4>Nos prestations</h4>
       <ul>
         {topServices.map(s => (
-          <li><a href={`/#${s.slug}`}>{s.nom}</a></li>
+          <li><a href={`/services/${s.slug}/`}>{s.nom}</a></li>
         ))}
+        <li><a href="/services/" class="ft__more">Toutes nos prestations →</a></li>
       </ul>
     </div>
 
